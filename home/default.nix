@@ -4,7 +4,7 @@
     homeDirectory = "/home/${username}";
     stateVersion = "23.11";
 
-    packages = [ pkgs.discord pkgs.obsidian pkgs.taplo ];
+    packages = [ pkgs.discord pkgs.obsidian ];
   };
 
   programs.home-manager = { enable = true; };
