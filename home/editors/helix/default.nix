@@ -1,5 +1,5 @@
-{ pkgs, ... }: {
-  imports = [ ./languages.nix ];
+{pkgs, ...}: {
+  imports = [./languages.nix];
 
   programs.helix = {
     enable = true;
@@ -26,7 +26,7 @@
           enable = true;
           supersede-menu = true;
         };
-        statusline.center = [ "position-percentage" ];
+        statusline.center = ["position-percentage"];
         true-color = true;
       };
     };

@@ -13,17 +13,24 @@
     };
   };
 
-  outputs = inputs:
-    let inherit (inputs.flake-parts.lib) mkFlake;
-    in mkFlake { inherit inputs; } {
+  outputs = inputs: let
+    inherit (inputs.flake-parts.lib) mkFlake;
+  in
+    mkFlake {inherit inputs;} {
       debug = true;
 
-      systems = [ "x86_64-linux" ];
+      systems = ["x86_64-linux"];
 
-      imports = [ ./home/profiles ];
+      imports = [
+        ./home/profiles
+      ];
 
-      perSystem = { config, pkgs, ... }: {
-        devShells.default = pkgs.mkShell { };
+      perSystem = {
+        config,
+        pkgs,
+        ...
+      }: {
+        devShells.default = pkgs.mkShell {};
       };
     };
 }

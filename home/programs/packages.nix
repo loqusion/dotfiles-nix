@@ -1,1 +1,7 @@
-{ pkgs, ... }: { home.packages = with pkgs; [ discord obsidian ]; }
+{pkgs, ...}: {
+  home.packages = with pkgs; [
+    alejandra
+    discord
+    obsidian
+  ];
+}
