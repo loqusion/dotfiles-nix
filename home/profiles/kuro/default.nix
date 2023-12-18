@@ -1,1 +1,7 @@
-{ imports = [ ../../editors/helix ../../programs ]; }
+{
+  imports = [
+    ../../editors/helix
+    ../../programs
+    # ../../terminals/wezterm.nix
+  ];
+}
