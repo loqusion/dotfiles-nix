@@ -1,1 +1,1 @@
-{ lib, pkgs, ... }: { imports = [ ./gtk.nix ]; }
+{ lib, pkgs, ... }: { imports = [ ./packages.nix ./gtk.nix ]; }
