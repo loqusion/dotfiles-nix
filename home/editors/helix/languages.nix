@@ -2,48 +2,53 @@
   pkgs,
   lib,
   ...
-}: {
+}: let
+  inherit (lib) getExe;
+in {
   programs.helix.languages = {
     language = let
-      prettier = lang: {
-        command = "${pkgs.nodePackages.prettier}/bin/prettier";
-        args = ["--parser" lang];
-      };
+      # XXX: Some languages don't auto-format by default, even when auto-format is enabled globally
+      withAutoFormat = map (langConfig: langConfig // {auto-format = true;});
       prettierLangs = map (lang: {
         name = lang;
-        formatter = prettier lang;
-      });
-      langs = ["css" "scss" "html"];
+        formatter = {
+          command = getExe pkgs.nodePackages.prettier;
+          args = ["--parser" lang];
+        };
+      }) ["css" "scss" "html"];
     in
-      [
-        {
-          name = "toml";
-          formatter = {
-            command = "${pkgs.taplo}/bin/taplo";
-            args = ["fmt" "-"];
-          };
-        }
-      ]
-      ++ prettierLangs langs;
+      withAutoFormat ([
+          {
+            name = "nix";
+          }
+          {
+            name = "toml";
+            formatter = {
+              command = getExe pkgs.taplo;
+              args = ["fmt" "-"];
+            };
+          }
+        ]
+        ++ prettierLangs);
 
     language-server = {
       bash-language-server = {
-        command = "${lib.getExe pkgs.nodePackages.bash-language-server}";
+        command = getExe pkgs.nodePackages.bash-language-server;
         args = ["start"];
       };
 
       nil = {
-        command = lib.getExe pkgs.nil;
-        config.nil.formatting.command = ["${lib.getExe pkgs.nixfmt}" "-q"];
+        command = getExe pkgs.nil;
+        config.nil.formatting.command = [(getExe pkgs.alejandra) "-q"];
       };
 
       taplo = {
-        command = "${pkgs.taplo}/bin/taplo";
+        command = getExe pkgs.taplo;
         args = ["lsp" "stdio"];
       };
 
       vscode-css-language-server = {
-        command = "${lib.getExe pkgs.nodePackages.vscode-css-languageserver-bin}";
+        command = getExe pkgs.nodePackages.vscode-css-languageserver-bin;
         args = ["--stdio"];
         config = {
           provideFormatter = true;

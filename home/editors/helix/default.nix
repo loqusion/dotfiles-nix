@@ -8,6 +8,7 @@
     settings = {
       theme = "onedark";
       editor = {
+        auto-format = true;
         color-modes = true;
         cursorline = true;
         cursor-shape = {
