@@ -11,9 +11,13 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs: let
+  outputs = inputs @ {self, ...}: let
     inherit (inputs.flake-parts.lib) mkFlake;
   in
     mkFlake {inherit inputs;} {
@@ -23,6 +27,7 @@
 
       imports = [
         ./home/profiles
+        inputs.pre-commit-hooks.flakeModule
       ];
 
       perSystem = {
@@ -30,7 +35,20 @@
         pkgs,
         ...
       }: {
-        devShells.default = pkgs.mkShell {};
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs; [
+            alejandra
+          ];
+          shellHook = ''
+            ${config.pre-commit.installationScript}
+          '';
+        };
+        pre-commit = {
+          settings.excludes = ["flake.lock" ".gitignore"];
+          settings.hooks = {
+            alejandra.enable = true;
+          };
+        };
       };
     };
 }
