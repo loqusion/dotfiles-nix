@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{...}: {
   home = rec {
     username = "loqusion";
     homeDirectory = "/home/${username}";
