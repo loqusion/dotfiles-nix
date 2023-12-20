@@ -22,16 +22,18 @@
   };
 
   outputs = inputs @ {
+    nixpkgs,
     devenv,
     pre-commit-hooks,
     ...
   }: let
+    inherit (nixpkgs.lib.systems) flakeExposed;
     inherit (inputs.flake-parts.lib) mkFlake;
   in
     mkFlake {inherit inputs;} {
       debug = true;
 
-      systems = ["x86_64-linux"];
+      systems = flakeExposed;
 
       imports = [
         ./home/profiles
