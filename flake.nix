@@ -19,12 +19,17 @@
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    helix = {
+      url = "github:helix-editor/helix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
     nixpkgs,
     devenv,
     pre-commit-hooks,
+    helix,
     ...
   }: let
     inherit (nixpkgs.lib.systems) flakeExposed;
@@ -42,12 +47,19 @@
       ];
 
       perSystem = {
+        system,
         config,
         pkgs,
         ...
       }: let
         inherit (pkgs.lib) mkForce;
       in {
+        _module.args.pkgs = import nixpkgs {
+          inherit system;
+          overlays = [
+            helix.overlays.default
+          ];
+        };
         devenv.shells.default = {
           packages = with pkgs; [
             alejandra
