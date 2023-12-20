@@ -11,13 +11,21 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
+    devenv = {
+      url = "github:cachix/devenv";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = inputs @ {self, ...}: let
+  outputs = inputs @ {
+    devenv,
+    pre-commit-hooks,
+    ...
+  }: let
     inherit (inputs.flake-parts.lib) mkFlake;
   in
     mkFlake {inherit inputs;} {
@@ -27,7 +35,8 @@
 
       imports = [
         ./home/profiles
-        inputs.pre-commit-hooks.flakeModule
+        devenv.flakeModule
+        pre-commit-hooks.flakeModule
       ];
 
       perSystem = {
@@ -35,11 +44,11 @@
         pkgs,
         ...
       }: {
-        devShells.default = pkgs.mkShell {
+        devenv.shells.default = {
           packages = with pkgs; [
             alejandra
           ];
-          shellHook = ''
+          enterShell = ''
             ${config.pre-commit.installationScript}
           '';
         };

@@ -1,3 +1,4 @@
-.direnv
-.pre-commit-config.yaml
+.devenv/
+.direnv/
 result/
+.pre-commit-config.yaml
