@@ -28,6 +28,12 @@ in {
               args = ["fmt" "-"];
             };
           }
+          {
+            name = "typst";
+            formatter = {
+              command = getExe pkgs.typstfmt;
+            };
+          }
         ]
         ++ prettierLangs);
 
