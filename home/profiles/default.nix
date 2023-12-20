@@ -1,26 +1,36 @@
 {
+  lib,
   inputs,
   withSystem,
   ...
 }: let
-  sharedModules = [../.];
-
   username = "loqusion";
-  homeImports = {
-    "${username}@kuro" = [./kuro] ++ sharedModules;
-    "${username}@shiro" = [./shiro] ++ sharedModules;
+  profiles = {
+    kuro = {
+      name = username;
+      system = "x86_64-linux";
+      modules = [./kuro];
+    };
+    shiro = {
+      name = "${username}@shiro";
+      system = "x86_64-linux";
+      modules = [./shiro];
+    };
   };
 
+  allHomeManagerConfigurationsFor =
+    mapAttrs' (name: profile:
+      nameValuePair profile.name (homeManagerConfigurationFor profile));
+  homeManagerConfigurationFor = profile:
+    withSystem profile.system ({pkgs, ...}: (homeManagerConfiguration {
+      modules = profile.modules ++ [../.];
+      inherit pkgs;
+    }));
+
+  inherit (lib.attrsets) mapAttrs' nameValuePair;
   inherit (inputs.home-manager.lib) homeManagerConfiguration;
 in {
-  # imports = [{ _module.args = { inherit homeImports; }; }];
-
   flake = {
-    homeConfigurations = withSystem "x86_64-linux" ({pkgs, ...}: {
-      "${username}" = homeManagerConfiguration {
-        modules = homeImports."${username}@kuro";
-        inherit pkgs;
-      };
-    });
+    homeConfigurations = allHomeManagerConfigurationsFor profiles;
   };
 }
