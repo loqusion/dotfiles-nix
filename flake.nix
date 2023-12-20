@@ -45,7 +45,9 @@
         config,
         pkgs,
         ...
-      }: {
+      }: let
+        inherit (pkgs.lib) mkForce;
+      in {
         devenv.shells.default = {
           packages = with pkgs; [
             alejandra
@@ -53,6 +55,8 @@
           enterShell = ''
             ${config.pre-commit.installationScript}
           '';
+          # HACK: Workaround for https://github.com/cachix/devenv/issues/528
+          containers = mkForce {};
         };
         pre-commit = {
           settings.excludes = ["flake.lock" ".gitignore"];
