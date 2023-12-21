@@ -48,6 +48,10 @@ in {
         config.nil.formatting.command = [(getExe pkgs.alejandra) "-q"];
       };
 
+      rust-analyzer = {
+        command = getExe pkgs.rust-analyzer;
+      };
+
       taplo = {
         command = getExe pkgs.taplo;
         args = ["lsp" "stdio"];
