@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  pkgs,
+  lib,
+  ...
+}: let
   catppuccinDrv = pkgs.fetchurl {
     url = "https://raw.githubusercontent.com/catppuccin/foot/009cd57bd3491c65bb718a269951719f94224eb7/catppuccin-mocha.conf";
     hash = "sha256-plQ6Vge6DDLj7cBID+DRNv4b8ysadU2Lnyeemus9nx8=";
@@ -10,12 +14,41 @@ in {
     enable = true;
     settings = {
       main = let
-        withSize = "size=${toString size}";
+        defineFont = let
+          inherit (lib.attrsets) filterAttrs mapAttrsToList;
+          inherit (lib.strings) concatStringsSep;
+        in
+          {
+            font,
+            style ? null,
+            size ? size,
+            features ? ["calt" "dlig" "liga" "kern"],
+          }:
+            concatStringsSep ":" (mapAttrsToList (name: value:
+              if name == "font"
+              then toString value
+              else
+                concatStringsSep
+                "=" [name (toString value)]) (filterAttrs (name: value: value != null) {
+              inherit font style size;
+              fontfeatures = concatStringsSep " " features;
+            }));
       in {
-        font = "${font}:${withSize}";
-        font-bold = "${font}:style=Bold:${withSize}";
-        font-italic = "${fontItalic}:style=Italic:${withSize}";
-        font-bold-italic = "${fontItalic}:style=BoldItalic:${withSize}";
+        font = defineFont {inherit font size;};
+        font-bold = defineFont {
+          inherit font size;
+          style = "Bold";
+        };
+        font-italic = defineFont {
+          inherit size;
+          font = fontItalic;
+          style = "Italic";
+        };
+        font-bold-italic = defineFont {
+          inherit size;
+          font = fontItalic;
+          style = "BoldItalic";
+        };
         box-drawings-uses-font-glyphs = false;
         selection-target = "clipboard";
         include = "${catppuccinDrv}";
