@@ -15,6 +15,11 @@ in {
     settings = {
       main = let
         defineFont = let
+          filterNullAttrs = filterAttrs (name: value: value != null);
+          fontAttrsToList = mapAttrsToList (name: value:
+            if name == "font"
+            then toString value
+            else concatStringsSep "=" [name (toString value)]);
           inherit (lib.attrsets) filterAttrs mapAttrsToList;
           inherit (lib.strings) concatStringsSep;
         in
@@ -24,15 +29,14 @@ in {
             size ? size,
             features ? ["calt" "dlig" "liga" "kern"],
           }:
-            concatStringsSep ":" (mapAttrsToList (name: value:
-              if name == "font"
-              then toString value
-              else
-                concatStringsSep
-                "=" [name (toString value)]) (filterAttrs (name: value: value != null) {
-              inherit font style size;
-              fontfeatures = concatStringsSep " " features;
-            }));
+            concatStringsSep ":" (
+              fontAttrsToList (
+                filterNullAttrs {
+                  inherit font style size;
+                  fontfeatures = concatStringsSep " " features;
+                }
+              )
+            );
       in {
         font = defineFont {inherit font size;};
         font-bold = defineFont {
