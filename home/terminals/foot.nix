@@ -16,12 +16,21 @@ in {
         font-bold = "${font}:style=Bold:${withSize}";
         font-italic = "${fontItalic}:style=Italic:${withSize}";
         font-bold-italic = "${fontItalic}:style=BoldItalic:${withSize}";
-        box-drawings-uses-font-glyphs = true;
+        box-drawings-uses-font-glyphs = false;
+        selection-target = "clipboard";
         include = "${catppuccinDrv}";
       };
 
       scrollback = {
         lines = 10000;
+      };
+
+      key-bindings = {
+        spawn-terminal = "none";
+      };
+
+      mouse-bindings = {
+        primary-paste = "none";
       };
 
       url = {
