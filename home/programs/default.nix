@@ -1,7 +1,8 @@
 {...}: {
   imports = [
-    ./packages.nix
-    ./gtk.nix
     ./chat.nix
+    ./development.nix
+    ./gtk.nix
+    ./packages.nix
   ];
 }
