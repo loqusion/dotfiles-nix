@@ -9,7 +9,7 @@
     package = pkgs.helix;
 
     settings = {
-      theme = "onedark";
+      theme = "catppuccin";
       editor = {
         auto-format = true;
         color-modes = true;
