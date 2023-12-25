@@ -1,5 +1,8 @@
 {pkgs, ...}: {
-  imports = [./languages.nix];
+  imports = [
+    ./languages.nix
+    ./theme.nix
+  ];
 
   programs.helix = {
     enable = true;
