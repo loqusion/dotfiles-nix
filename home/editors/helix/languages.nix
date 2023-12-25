@@ -8,7 +8,7 @@ in {
   programs.helix.languages = {
     language = let
       # XXX: Some languages don't auto-format by default, even when auto-format is enabled globally
-      withAutoFormat = map (langConfig: langConfig // {auto-format = true;});
+      withAutoFormat = map (langConfig: {auto-format = true;} // langConfig);
       prettierLangs = map (lang: {
         name = lang;
         formatter = {
@@ -33,6 +33,7 @@ in {
             formatter = {
               command = getExe pkgs.typstfmt;
             };
+            auto-format = false;
           }
         ]
         ++ prettierLangs);
