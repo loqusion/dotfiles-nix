@@ -6,6 +6,8 @@
   };
 
   programs.home-manager = {enable = true;};
+  # why is this enabled by default
+  programs.man.enable = false;
 
   nixpkgs.config = {
     allowUnfree = true;
