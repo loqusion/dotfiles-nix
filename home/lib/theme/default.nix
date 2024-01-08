@@ -3,10 +3,14 @@
     jetbrains = "JetBrainsMono NF";
     maple = "Maple Mono SC NF";
     victor = "Victor Mono NF";
-  in {
+  in rec {
     font = jetbrains;
     fontItalic = maple;
-    opacity = 0.9;
+    transparent = true;
+    opacity =
+      if transparent
+      then 0.9
+      else 1.0;
     size = 12.5;
   };
 
