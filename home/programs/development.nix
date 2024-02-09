@@ -3,5 +3,7 @@
     alejandra
     cachix
     nil
+    nixfmt
+    nixpkgs-fmt
   ];
 }
