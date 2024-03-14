@@ -11,7 +11,7 @@
       if transparent
       then 0.9
       else 1.0;
-    size = 12.5;
+    size = 13;
   };
 
   dark = true;
