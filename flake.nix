@@ -43,7 +43,7 @@
         _module.args.pkgs = import nixpkgs {
           inherit system;
           overlays = [
-            helix.overlays.default
+            # helix.overlays.default
           ];
         };
       };
