@@ -4,7 +4,7 @@
     cachix
     fh
     nil
-    nixfmt
+    nixfmt-classic
     nixpkgs-fmt
   ];
 }
