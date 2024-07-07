@@ -57,16 +57,16 @@ in {
         command = getExe pkgs.taplo;
         args = ["lsp" "stdio"];
       };
-
-      vscode-css-language-server = {
-        command = getExe pkgs.nodePackages.vscode-css-languageserver-bin;
-        args = ["--stdio"];
-        config = {
-          provideFormatter = true;
-          css.validate.enable = true;
-          scss.validate.enable = true;
-        };
-      };
+      #
+      # vscode-css-language-server = {
+      #   command = getExe pkgs.nodePackages.vscode-css-languageserver-bin;
+      #   args = ["--stdio"];
+      #   config = {
+      #     provideFormatter = true;
+      #     css.validate.enable = true;
+      #     scss.validate.enable = true;
+      #   };
+      # };
     };
   };
 }
