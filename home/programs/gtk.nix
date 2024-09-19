@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  cursorThemeName = "Catppuccin-Mocha-Dark-Cursors";
+  cursorThemeName = "catppuccin-mocha-dark-cursors";
 in {
   home.packages = [pkgs.catppuccin-cursors];
   home.pointerCursor = {
