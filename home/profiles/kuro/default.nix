@@ -1,7 +1,7 @@
 {
   imports = [
     # ./xresources.nix
-    ../../editors/helix
+    # ../../editors/helix
     ../../editors/vscode
     ../../programs
     ../../terminals/foot.nix
