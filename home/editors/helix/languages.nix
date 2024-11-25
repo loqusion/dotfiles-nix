@@ -22,6 +22,9 @@ in {
             name = "nix";
           }
           {
+            name = "rust";
+          }
+          {
             name = "toml";
             formatter = {
               command = getExe pkgs.taplo;
