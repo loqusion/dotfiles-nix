@@ -3,6 +3,11 @@
     jetbrains = "JetBrainsMono NF";
     maple = "Maple Mono SC NF";
     victor = "Victor Mono NF";
+    monaspace-ne = "MonaspiceNe NF";
+    monaspace-ar = "MonaspiceAr NF";
+    monaspace-xe = "MonaspiceXe NF";
+    monaspace-rn = "MonaspiceRn NF";
+    monaspace-kr = "MonaspiceKr NF";
   in rec {
     font = jetbrains;
     fontItalic = maple;
