@@ -2,7 +2,7 @@
   imports = [
     # ./xresources.nix
     # ../../editors/helix
-    ../../editors/vscode
+    # ../../editors/vscode
     ../../programs
     ../../terminals/foot.nix
     # ../../terminals/alacritty.nix
